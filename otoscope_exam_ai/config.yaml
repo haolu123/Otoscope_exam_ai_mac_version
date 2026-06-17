@@ -1,0 +1,17 @@
+# config.yaml
+model:
+  checkpoint_path: "checkpoints/best-macroauroc-epoch=49.ckpt"
+  target: "detection.model.MultiClassLitModel"
+  params:
+    label_list:
+      - "aom"
+      - "effusion"
+      - "normal"
+      - "perforation"
+      - "retraction"
+      - "tube"
+      - "tympanosclerosis"
+
+inference:
+  img_size: 224
+  device: "cpu"

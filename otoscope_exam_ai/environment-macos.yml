@@ -1,0 +1,28 @@
+name: otoscope_exam_mac
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.11
+  - pip
+  - pyinstaller
+  - pyside6=6.7.3
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - scikit-image
+  - pillow
+  - pyyaml
+  - joblib
+  - imageio
+  - imageio-ffmpeg
+  - matplotlib
+  - tqdm
+  - pytorch
+  - torchvision
+  - pip:
+      - grad-cam==1.5.5
+      - pytorch-lightning
+      - torchmetrics
+      - ttach
