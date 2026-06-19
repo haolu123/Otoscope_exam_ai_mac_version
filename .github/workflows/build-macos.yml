@@ -42,3 +42,19 @@ jobs:
           path: otoscope_exam_ai/dist_macos/otoscope_exam_ai_mac.zip
           if-no-files-found: error
           retention-days: 14
+
+      - name: Split macOS artifact for connector download
+        shell: bash -l {0}
+        run: |
+          mkdir -p otoscope_exam_ai/dist_macos/parts
+          split -b 450m -d -a 3 \
+            otoscope_exam_ai/dist_macos/otoscope_exam_ai_mac.zip \
+            otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-
+
+      - name: Upload macOS artifact parts
+        uses: actions/upload-artifact@v4
+        with:
+          name: otoscope_exam_ai_mac_parts
+          path: otoscope_exam_ai/dist_macos/parts/*
+          if-no-files-found: error
+          retention-days: 14
