@@ -47,7 +47,7 @@ jobs:
         shell: bash -l {0}
         run: |
           mkdir -p otoscope_exam_ai/dist_macos/parts
-          split -b 450m -d -a 3 \
+          split -b 150m -d -a 3 \
             otoscope_exam_ai/dist_macos/otoscope_exam_ai_mac.zip \
             otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-
 
@@ -64,5 +64,29 @@ jobs:
         with:
           name: otoscope_exam_ai_mac_part_001
           path: otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-001
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload macOS artifact part 002
+        uses: actions/upload-artifact@v4
+        with:
+          name: otoscope_exam_ai_mac_part_002
+          path: otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-002
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload macOS artifact part 003
+        uses: actions/upload-artifact@v4
+        with:
+          name: otoscope_exam_ai_mac_part_003
+          path: otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-003
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload macOS artifact part 004
+        uses: actions/upload-artifact@v4
+        with:
+          name: otoscope_exam_ai_mac_part_004
+          path: otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-004
           if-no-files-found: error
           retention-days: 14
