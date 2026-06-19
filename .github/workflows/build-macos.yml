@@ -51,10 +51,18 @@ jobs:
             otoscope_exam_ai/dist_macos/otoscope_exam_ai_mac.zip \
             otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-
 
-      - name: Upload macOS artifact parts
+      - name: Upload macOS artifact part 000
         uses: actions/upload-artifact@v4
         with:
-          name: otoscope_exam_ai_mac_parts
-          path: otoscope_exam_ai/dist_macos/parts/*
+          name: otoscope_exam_ai_mac_part_000
+          path: otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-000
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload macOS artifact part 001
+        uses: actions/upload-artifact@v4
+        with:
+          name: otoscope_exam_ai_mac_part_001
+          path: otoscope_exam_ai/dist_macos/parts/otoscope_exam_ai_mac.zip.part-001
           if-no-files-found: error
           retention-days: 14
