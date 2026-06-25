@@ -1,0 +1,502 @@
+[
+  {
+    "video_id": "AJM67R.MOV",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/AJM67R.MOV"
+  },
+  {
+    "video_id": "AJM72R.MOV",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/AJM72R.MOV"
+  },
+  {
+    "video_id": "AJM73R.MOV",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/AJM73R.MOV"
+  },
+  {
+    "video_id": "AJM77L.mov",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/AJM77L.mov"
+  },
+  {
+    "video_id": "AJM79R.mov",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/AJM79R.mov"
+  },
+  {
+    "video_id": "AJM84R.MOV",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/AJM84R.MOV"
+  },
+  {
+    "video_id": "AJM87R.MOV",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/AJM87R.MOV"
+  },
+  {
+    "video_id": "CE1128L.avi",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/CE1128L.avi"
+  },
+  {
+    "video_id": "CE1128R.avi",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/CE1128R.avi"
+  },
+  {
+    "video_id": "CE1141R.avi",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/CE1141R.avi"
+  },
+  {
+    "video_id": "CE1166R.avi",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/CE1166R.avi"
+  },
+  {
+    "video_id": "CE1196L.avi",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/CE1196L.avi"
+  },
+  {
+    "video_id": "CE1198L.avi",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/CE1198L.avi"
+  },
+  {
+    "video_id": "MI87R.MOV",
+    "correct_answer": "AOM",
+    "relative_path": "videos/AOM/MI87R.MOV"
+  },
+  {
+    "video_id": "AM1016R.avi",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM1016R.avi"
+  },
+  {
+    "video_id": "AM1074R.avi",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM1074R.avi"
+  },
+  {
+    "video_id": "AM1077L.avi",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM1077L.avi"
+  },
+  {
+    "video_id": "AM1104R.avi",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM1104R.avi"
+  },
+  {
+    "video_id": "AM1116R.avi",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM1116R.avi"
+  },
+  {
+    "video_id": "AM430R.MOV",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM430R.MOV"
+  },
+  {
+    "video_id": "AM551L.MOV",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM551L.MOV"
+  },
+  {
+    "video_id": "AM599R.MOV",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM599R.MOV"
+  },
+  {
+    "video_id": "AM600L.MOV",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM600L.MOV"
+  },
+  {
+    "video_id": "AM607R.MOV",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/AM607R.MOV"
+  },
+  {
+    "video_id": "CE1139R.avi",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/CE1139R.avi"
+  },
+  {
+    "video_id": "CE1140L.avi",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/CE1140L.avi"
+  },
+  {
+    "video_id": "CE25R.MOV",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/CE25R.MOV"
+  },
+  {
+    "video_id": "OT133435.MOV",
+    "correct_answer": "Effusion",
+    "relative_path": "videos/Effusion/OT133435.MOV"
+  },
+  {
+    "video_id": "AM1012L.avi",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM1012L.avi"
+  },
+  {
+    "video_id": "AM1018L.avi",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM1018L.avi"
+  },
+  {
+    "video_id": "AM1018R.avi",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM1018R.avi"
+  },
+  {
+    "video_id": "AM1071R.avi",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM1071R.avi"
+  },
+  {
+    "video_id": "AM1133R.avi",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM1133R.avi"
+  },
+  {
+    "video_id": "AM332R.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM332R.MOV"
+  },
+  {
+    "video_id": "AM338R.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM338R.MOV"
+  },
+  {
+    "video_id": "AM505R.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM505R.MOV"
+  },
+  {
+    "video_id": "AM506R.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM506R.MOV"
+  },
+  {
+    "video_id": "AM514R.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM514R.MOV"
+  },
+  {
+    "video_id": "AM518L.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM518L.MOV"
+  },
+  {
+    "video_id": "AM523R.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/AM523R.MOV"
+  },
+  {
+    "video_id": "CE11R.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/CE11R.MOV"
+  },
+  {
+    "video_id": "OT083244.MOV",
+    "correct_answer": "Normal",
+    "relative_path": "videos/Normal/OT083244.MOV"
+  },
+  {
+    "video_id": "AM1015L.avi",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM1015L.avi"
+  },
+  {
+    "video_id": "AM1017R.avi",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM1017R.avi"
+  },
+  {
+    "video_id": "AM1068L.avi",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM1068L.avi"
+  },
+  {
+    "video_id": "AM1073L.avi",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM1073L.avi"
+  },
+  {
+    "video_id": "AM1102R.avi",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM1102R.avi"
+  },
+  {
+    "video_id": "AM1114L.avi",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM1114L.avi"
+  },
+  {
+    "video_id": "AM1128L.avi",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM1128L.avi"
+  },
+  {
+    "video_id": "AM349R.MOV",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM349R.MOV"
+  },
+  {
+    "video_id": "AM352L.MOV",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM352L.MOV"
+  },
+  {
+    "video_id": "AM511R.MOV",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM511R.MOV"
+  },
+  {
+    "video_id": "AM543L.MOV",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM543L.MOV"
+  },
+  {
+    "video_id": "AM612R.MOV",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM612R.MOV"
+  },
+  {
+    "video_id": "AM658L.MOV",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM658L.MOV"
+  },
+  {
+    "video_id": "AM672R.MOV",
+    "correct_answer": "Perforation",
+    "relative_path": "videos/Perforation/AM672R.MOV"
+  },
+  {
+    "video_id": "AM1072L.avi",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM1072L.avi"
+  },
+  {
+    "video_id": "AM1075L.avi",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM1075L.avi"
+  },
+  {
+    "video_id": "AM1089R.avi",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM1089R.avi"
+  },
+  {
+    "video_id": "AM1098L.avi",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM1098L.avi"
+  },
+  {
+    "video_id": "AM1108R.avi",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM1108R.avi"
+  },
+  {
+    "video_id": "AM1150L.avi",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM1150L.avi"
+  },
+  {
+    "video_id": "AM335R.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM335R.MOV"
+  },
+  {
+    "video_id": "AM362L.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM362L.MOV"
+  },
+  {
+    "video_id": "AM501R.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM501R.MOV"
+  },
+  {
+    "video_id": "AM507R.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM507R.MOV"
+  },
+  {
+    "video_id": "AM554L.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM554L.MOV"
+  },
+  {
+    "video_id": "AM586L.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM586L.MOV"
+  },
+  {
+    "video_id": "AM589R.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM589R.MOV"
+  },
+  {
+    "video_id": "AM619R.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/AM619R.MOV"
+  },
+  {
+    "video_id": "GE118R.MOV",
+    "correct_answer": "Retraction",
+    "relative_path": "videos/Retraction/GE118R.MOV"
+  },
+  {
+    "video_id": "AM1069R.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1069R.avi"
+  },
+  {
+    "video_id": "AM1081R.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1081R.avi"
+  },
+  {
+    "video_id": "AM1086L.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1086L.avi"
+  },
+  {
+    "video_id": "AM1086R.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1086R.avi"
+  },
+  {
+    "video_id": "AM1096L.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1096L.avi"
+  },
+  {
+    "video_id": "AM1105L.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1105L.avi"
+  },
+  {
+    "video_id": "AM1116L.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1116L.avi"
+  },
+  {
+    "video_id": "AM1121R.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1121R.avi"
+  },
+  {
+    "video_id": "AM1123L.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1123L.avi"
+  },
+  {
+    "video_id": "AM1140R.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1140R.avi"
+  },
+  {
+    "video_id": "AM1151L.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/AM1151L.avi"
+  },
+  {
+    "video_id": "CE1107L.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/CE1107L.avi"
+  },
+  {
+    "video_id": "CE1112R.avi",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/CE1112R.avi"
+  },
+  {
+    "video_id": "MI78L.mov",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/MI78L.mov"
+  },
+  {
+    "video_id": "MI78R.mov",
+    "correct_answer": "Tubes",
+    "relative_path": "videos/Tubes/MI78R.mov"
+  },
+  {
+    "video_id": "AM1068R.avi",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM1068R.avi"
+  },
+  {
+    "video_id": "AM1078R.avi",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM1078R.avi"
+  },
+  {
+    "video_id": "AM1103L.avi",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM1103L.avi"
+  },
+  {
+    "video_id": "AM1124R.avi",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM1124R.avi"
+  },
+  {
+    "video_id": "AM1137R.avi",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM1137R.avi"
+  },
+  {
+    "video_id": "AM1147R.avi",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM1147R.avi"
+  },
+  {
+    "video_id": "AM405L.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM405L.MOV"
+  },
+  {
+    "video_id": "AM443L.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM443L.MOV"
+  },
+  {
+    "video_id": "AM464L.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM464L.MOV"
+  },
+  {
+    "video_id": "AM481R.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM481R.MOV"
+  },
+  {
+    "video_id": "AM571R.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM571R.MOV"
+  },
+  {
+    "video_id": "AM604L.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/AM604L.MOV"
+  },
+  {
+    "video_id": "CE96L.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/CE96L.MOV"
+  },
+  {
+    "video_id": "CE96R.MOV",
+    "correct_answer": "Tympanosclerosis",
+    "relative_path": "videos/Tympanosclerosis/CE96R.MOV"
+  }
+]

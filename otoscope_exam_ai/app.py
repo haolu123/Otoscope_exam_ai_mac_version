@@ -67,6 +67,8 @@ CATEGORIES = [
     "Tympanosclerosis",
 ]
 VIDEO_EXTENSIONS = {".mov", ".avi", ".mp4", ".mkv", ".wmv", ".m4v"}
+FIXED_QUESTIONS_MANIFEST = "fixed_questions_100.json"
+PRECOMPUTED_AI_RESULTS = "ai_precomputed/precomputed_ai_results.json"
 
 # Keep this as the internal question-count interface. None means use every video.
 QUESTION_LIMIT = 100
@@ -109,6 +111,12 @@ def relative_to_root(path: Path, root: Path) -> str:
 
 
 def load_questions(root: Path) -> list[VideoQuestion]:
+    manifest_path = root / FIXED_QUESTIONS_MANIFEST
+    if manifest_path.exists():
+        questions = load_fixed_questions(root, manifest_path)
+        random.shuffle(questions)
+        return questions
+
     videos_dir = root / "videos"
     if not videos_dir.exists():
         raise FileNotFoundError(f"Videos folder not found: {videos_dir}")
@@ -184,6 +192,45 @@ def select_balanced_questions(
 
     random.shuffle(selected)
     return selected
+
+
+def load_fixed_questions(root: Path, manifest_path: Path) -> list[VideoQuestion]:
+    with manifest_path.open("r", encoding="utf-8") as file:
+        items = json.load(file)
+    if not isinstance(items, list) or len(items) != 100:
+        raise ValueError(
+            f"{FIXED_QUESTIONS_MANIFEST} must contain exactly 100 questions."
+        )
+
+    questions: list[VideoQuestion] = []
+    seen_paths: set[str] = set()
+    for index, item in enumerate(items, start=1):
+        try:
+            relative_path = item["relative_path"]
+            video_id = item["video_id"]
+            correct_answer = item["correct_answer"]
+        except KeyError as exc:
+            raise ValueError(
+                f"Question {index} in {FIXED_QUESTIONS_MANIFEST} is missing {exc}."
+            ) from exc
+        if correct_answer not in CATEGORIES:
+            raise ValueError(
+                f"Question {index} has unknown category: {correct_answer}."
+            )
+        if relative_path in seen_paths:
+            raise ValueError(f"Duplicate question path in manifest: {relative_path}")
+        seen_paths.add(relative_path)
+        path = root / relative_path
+        if not path.exists():
+            raise FileNotFoundError(f"Manifest video not found: {relative_path}")
+        questions.append(
+            VideoQuestion(
+                video_id=video_id,
+                correct_answer=correct_answer,
+                path=path,
+            )
+        )
+    return questions
 
 
 def find_subject_sessions(root: Path, subject_name: str) -> list[Path]:
@@ -316,7 +363,7 @@ class VideoPlayer(QWidget):
 
         self.video_label = QLabel("No video loaded")
         self.video_label.setAlignment(Qt.AlignCenter)
-        self.video_label.setMinimumSize(720, 420)
+        self.video_label.setMinimumSize(520, 260)
         self.video_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.video_label.setObjectName("VideoSurface")
 
@@ -461,12 +508,14 @@ class ExamPage(QWidget):
         self.exam_date = ""
         self.questions: list[VideoQuestion] = []
         self.answers: list[str | None] = []
+        self.confidence_levels: list[int | None] = []
         self.current_index = 0
         self.furthest_index = 0
         self.completed = False
         self.result_path: Path | None = None
         self.session_path: Path | None = None
         self.ai_results: dict[str, dict] = {}
+        self.precomputed_ai_results: dict[str, dict] = {}
         self.ai_process: subprocess.Popen | None = None
         self.ai_process_video_path: Path | None = None
         self.ai_process_result_path: Path | None = None
@@ -474,6 +523,7 @@ class ExamPage(QWidget):
         self.ai_process_timer.setInterval(250)
         self.ai_process_timer.timeout.connect(self.poll_ai_process)
         self.ai_output_root = self.root / "ai_output"
+        self.precomputed_ai_results = self.load_precomputed_ai_results()
 
         self.build_ui()
 
@@ -508,12 +558,35 @@ class ExamPage(QWidget):
         self.answer_group = QButtonGroup(self)
         self.answer_group.setExclusive(True)
         diagnosis_layout = QGridLayout(diagnosis_box)
+        diagnosis_layout.setContentsMargins(10, 10, 10, 8)
+        diagnosis_layout.setHorizontalSpacing(12)
+        diagnosis_layout.setVerticalSpacing(2)
         for index, category in enumerate(CATEGORIES):
             radio = QRadioButton(category)
             self.answer_group.addButton(radio, index)
-            row = index // 2
-            column = index % 2
+            row = index // 3
+            column = index % 3
             diagnosis_layout.addWidget(radio, row, column)
+
+        confidence_box = QGroupBox("Confidence Level")
+        confidence_layout = QVBoxLayout(confidence_box)
+        confidence_layout.setContentsMargins(10, 10, 10, 8)
+        confidence_layout.setSpacing(3)
+        confidence_prompt = QLabel("How confident are you in this answer?")
+        confidence_prompt.setObjectName("Subtitle")
+        confidence_help = QLabel("1 = Not confident at all    5 = Very confident")
+        confidence_help.setObjectName("Subtitle")
+        confidence_layout.addWidget(confidence_prompt)
+        confidence_layout.addWidget(confidence_help)
+        confidence_buttons_layout = QHBoxLayout()
+        self.confidence_group = QButtonGroup(self)
+        self.confidence_group.setExclusive(True)
+        for level in range(1, 6):
+            radio = QRadioButton(str(level))
+            self.confidence_group.addButton(radio, level)
+            confidence_buttons_layout.addWidget(radio)
+        confidence_buttons_layout.addStretch()
+        confidence_layout.addLayout(confidence_buttons_layout)
 
         self.back_button = QPushButton("Back")
         self.next_button = QPushButton("Next")
@@ -557,7 +630,8 @@ class ExamPage(QWidget):
 
         ai_scroll = QScrollArea()
         ai_scroll.setWidgetResizable(True)
-        ai_scroll.setMinimumWidth(390)
+        ai_scroll.setMinimumWidth(280)
+        ai_scroll.setMaximumWidth(320)
         ai_scroll.setWidget(ai_box)
 
         exam_content = QWidget()
@@ -568,24 +642,32 @@ class ExamPage(QWidget):
         exam_layout.addWidget(self.video_player, stretch=1)
         exam_layout.addLayout(control_layout)
         exam_layout.addWidget(diagnosis_box)
+        exam_layout.addWidget(confidence_box)
         exam_layout.addLayout(nav_layout)
 
+        exam_scroll = QScrollArea()
+        exam_scroll.setWidgetResizable(True)
+        exam_scroll.setFrameShape(QFrame.Shape.NoFrame)
+        exam_scroll.setWidget(exam_content)
+
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(18, 18, 18, 18)
-        layout.setSpacing(14)
-        layout.addWidget(exam_content, stretch=1)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(10)
+        layout.addWidget(exam_scroll, stretch=1)
         layout.addWidget(ai_scroll)
 
     def start_exam(self, subject_name: str):
         self.root = app_root()
         self.ai_output_root = self.root / "ai_output"
         self.ai_output_root.mkdir(exist_ok=True)
+        self.precomputed_ai_results = self.load_precomputed_ai_results()
         self.subject_name = subject_name
         now = datetime.now()
         self.subject_id = f"S{now.strftime('%Y%m%d_%H%M%S')}"
         self.exam_date = now.strftime("%Y-%m-%d %H:%M:%S")
         self.questions = load_questions(self.root)
         self.answers = [None] * len(self.questions)
+        self.confidence_levels = [None] * len(self.questions)
         self.ai_results = {}
         self.current_index = 0
         self.furthest_index = 0
@@ -599,6 +681,7 @@ class ExamPage(QWidget):
         self.root = app_root()
         self.ai_output_root = self.root / "ai_output"
         self.ai_output_root.mkdir(exist_ok=True)
+        self.precomputed_ai_results = self.load_precomputed_ai_results()
         with session_path.open("r", encoding="utf-8") as file:
             data = json.load(file)
 
@@ -606,6 +689,9 @@ class ExamPage(QWidget):
         self.subject_id = data["subject_id"]
         self.exam_date = data["exam_date"]
         self.answers = data["answers"]
+        self.confidence_levels = data.get("confidence_levels", [None] * len(self.answers))
+        if len(self.confidence_levels) != len(self.answers):
+            self.confidence_levels = [None] * len(self.answers)
         self.current_index = min(data.get("current_index", 0), len(self.answers) - 1)
         self.furthest_index = min(
             data.get("furthest_index", self.current_index), len(self.answers) - 1
@@ -658,12 +744,44 @@ class ExamPage(QWidget):
             f"Question {self.current_index + 1} / {len(self.questions)}"
         )
         self.restore_answer_selection()
+        self.restore_confidence_selection()
         self.show_ai_for_current_question()
         self.update_navigation_buttons()
 
     def question_ai_key(self, question: VideoQuestion | None = None) -> str:
         item = question or self.questions[self.current_index]
         return str(item.path.resolve())
+
+    def question_precomputed_key(self, question: VideoQuestion | None = None) -> str:
+        item = question or self.questions[self.current_index]
+        return relative_to_root(item.path, self.root).replace("\\", "/")
+
+    def load_precomputed_ai_results(self) -> dict[str, dict]:
+        path = self.root / PRECOMPUTED_AI_RESULTS
+        if not path.exists():
+            return {}
+        try:
+            with path.open("r", encoding="utf-8") as file:
+                data = json.load(file)
+            if isinstance(data, dict):
+                get_logger().info("Loaded %s precomputed AI results", len(data))
+                return data
+        except Exception:
+            get_logger().exception("Could not load precomputed AI results from %s", path)
+        return {}
+
+    def absolute_precomputed_result(self, result: dict) -> dict:
+        converted = dict(result)
+        for key in ("video_path", "output_folder"):
+            value = converted.get(key)
+            if value:
+                converted[key] = str((self.root / value).resolve())
+        for key in ("frame_files", "heatmap_files"):
+            converted[key] = [
+                str((self.root / value).resolve()) if value else ""
+                for value in converted.get(key, [])
+            ]
+        return converted
 
     def is_retryable_ai_error(self, result: dict | None) -> bool:
         if not isinstance(result, dict):
@@ -678,6 +796,14 @@ class ExamPage(QWidget):
             cached_result = None
         if cached_result:
             self.render_ai_result(cached_result)
+            return
+        precomputed_key = self.question_precomputed_key()
+        precomputed_result = self.precomputed_ai_results.get(precomputed_key)
+        if precomputed_result and "error" not in precomputed_result:
+            result = self.absolute_precomputed_result(precomputed_result)
+            self.ai_results[key] = result
+            self.render_ai_result(result)
+            self.save_session()
             return
         self.clear_ai_display()
         self.ai_status_label.setText("AI analysis has not started for this video.")
@@ -699,6 +825,14 @@ class ExamPage(QWidget):
             cached_result = None
         if cached_result:
             self.render_ai_result(cached_result)
+            return
+        precomputed_key = self.question_precomputed_key(question)
+        precomputed_result = self.precomputed_ai_results.get(precomputed_key)
+        if precomputed_result and "error" not in precomputed_result:
+            result = self.absolute_precomputed_result(precomputed_result)
+            self.ai_results[key] = result
+            self.render_ai_result(result)
+            self.save_session()
             return
 
         self.clear_ai_display()
@@ -889,10 +1023,10 @@ class ExamPage(QWidget):
                 eardrum_probs[index] if index < len(eardrum_probs) else None,
                 quality_probs[index] if index < len(quality_probs) else None,
             )
-            self.ai_frames_layout.addWidget(frame_panel, index, 0)
+            self.ai_frames_layout.addWidget(frame_panel, index * 2, 0)
             heatmap_file = heatmap_files[index] if index < len(heatmap_files) else ""
             heatmap_panel = self.make_ai_image_panel(f"Heatmap {index + 1}", heatmap_file)
-            self.ai_frames_layout.addWidget(heatmap_panel, index, 1)
+            self.ai_frames_layout.addWidget(heatmap_panel, index * 2 + 1, 0)
 
     def make_ai_image_panel(
         self,
@@ -908,7 +1042,7 @@ class ExamPage(QWidget):
         label.setAlignment(Qt.AlignCenter)
         image_label = QLabel("Unavailable")
         image_label.setAlignment(Qt.AlignCenter)
-        image_label.setFixedSize(170, 120)
+        image_label.setFixedSize(145, 100)
         image_label.setObjectName("AIImage")
 
         if image_path and Path(image_path).exists():
@@ -946,11 +1080,30 @@ class ExamPage(QWidget):
                 button.setChecked(True)
                 break
 
+    def restore_confidence_selection(self):
+        self.confidence_group.setExclusive(False)
+        for button in self.confidence_group.buttons():
+            button.setChecked(False)
+        self.confidence_group.setExclusive(True)
+
+        confidence = self.confidence_levels[self.current_index]
+        if confidence is None:
+            return
+        button = self.confidence_group.button(int(confidence))
+        if button is not None:
+            button.setChecked(True)
+
     def selected_answer(self) -> str | None:
         button = self.answer_group.checkedButton()
         if button is None:
             return None
         return button.text()
+
+    def selected_confidence(self) -> int | None:
+        checked_id = self.confidence_group.checkedId()
+        if checked_id < 1:
+            return None
+        return checked_id
 
     def update_navigation_buttons(self):
         ai_busy = self.ai_process is not None
@@ -1000,13 +1153,23 @@ class ExamPage(QWidget):
                 "Please select an answer before continuing.",
             )
             return
+        confidence = self.selected_confidence()
+        if confidence is None:
+            QMessageBox.warning(
+                self,
+                "Confidence Required",
+                "Please select your confidence level before continuing.",
+            )
+            return
 
         self.answers[self.current_index] = answer
+        self.confidence_levels[self.current_index] = confidence
         get_logger().info(
-            "Confirmed answer for question %s video=%s answer=%s",
+            "Confirmed answer for question %s video=%s answer=%s confidence=%s",
             self.current_index + 1,
             self.questions[self.current_index].video_id,
             answer,
+            confidence,
         )
         if all(item is not None for item in self.answers):
             self.finish_exam()
@@ -1072,13 +1235,23 @@ class ExamPage(QWidget):
         result_path = self.result_path
         with result_path.open("w", newline="", encoding="utf-8-sig") as file:
             writer = csv.writer(file)
-            writer.writerow(["Video ID", "Correct Answer", "Participant Answer"])
-            for question, answer in zip(self.questions, self.answers):
+            writer.writerow(
+                [
+                    "Video ID",
+                    "Correct Answer",
+                    "Participant Answer",
+                    "Confidence Level",
+                ]
+            )
+            for question, answer, confidence in zip(
+                self.questions, self.answers, self.confidence_levels
+            ):
                 writer.writerow(
                     [
                         question.video_id,
                         question.correct_answer,
                         answer or "",
+                        confidence or "",
                     ]
                 )
         return result_path
@@ -1151,6 +1324,7 @@ class ExamPage(QWidget):
                 for question in self.questions
             ],
             "answers": self.answers,
+            "confidence_levels": self.confidence_levels,
             "ai_results": self.ai_results,
         }
         with self.session_path.open("w", encoding="utf-8") as file:
@@ -1203,7 +1377,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Otoscope Exam AI")
-        self.resize(1480, 860)
+        self.resize(1320, 760)
 
         self.stack = QStackedWidget()
         self.start_page = StartPage(self.start_exam)

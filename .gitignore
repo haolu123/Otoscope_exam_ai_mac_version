@@ -2,7 +2,9 @@ __pycache__/
 *.pyc
 
 build/
+build_*/
 dist/
+dist_*/
 *.spec
 
 result/
@@ -21,6 +23,7 @@ otoscope_exam_ai/dist/
 otoscope_exam_ai/dist_macos/
 otoscope_exam_ai/result/
 otoscope_exam_ai/ai_output/
+otoscope_exam_ai/ai_precomputed/
 otoscope_exam_ai/videos/
 otoscope_exam_ai/*.spec
 otoscope_exam_ai/otoscope_exam_ai.exe

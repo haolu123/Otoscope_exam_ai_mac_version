@@ -31,6 +31,7 @@ python -m PyInstaller \
   --onedir \
   --name "$WORKER_NAME" \
   --add-data "config.yaml:." \
+  --add-data "fixed_questions_100.json:." \
   --add-data "best_resnet50_eardrum.pth:." \
   --add-data "logistic_regression_model.pkl:." \
   --add-data "checkpoints:checkpoints" \
@@ -75,6 +76,10 @@ EOF
 fi
 cp README.md "$RELEASE_ROOT/README.md"
 cp READ_ME_FIRST_MAC.txt "$RELEASE_ROOT/READ_ME_FIRST_MAC.txt"
+cp fixed_questions_100.json "$RELEASE_ROOT/fixed_questions_100.json"
+if [ -d ai_precomputed ]; then
+  cp -R ai_precomputed "$RELEASE_ROOT/ai_precomputed"
+fi
 
 chmod +x "$RELEASE_ROOT/$APP_NAME.app/Contents/MacOS/$APP_NAME" || true
 chmod +x "$RELEASE_ROOT/ai_worker/$WORKER_NAME" || true
