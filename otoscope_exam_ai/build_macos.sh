@@ -14,7 +14,6 @@ rm -rf build dist dist_macos
 python -m PyInstaller \
   --noconfirm \
   --clean \
-  --onefile \
   --windowed \
   --name "$APP_NAME" \
   --copy-metadata imageio \
