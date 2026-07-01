@@ -95,6 +95,19 @@ def app_root() -> Path:
     return Path(__file__).resolve().parent
 
 
+def configure_bundled_ffmpeg(root: Path) -> None:
+    if os.environ.get("IMAGEIO_FFMPEG_EXE"):
+        return
+    candidates = [
+        root / "ffmpeg" / "ffmpeg",
+        root / "ffmpeg" / "ffmpeg.exe",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            os.environ["IMAGEIO_FFMPEG_EXE"] = str(candidate)
+            return
+
+
 def safe_filename(value: str) -> str:
     cleaned = re.sub(r"[^A-Za-z0-9_.-]+", "_", value.strip())
     return cleaned.strip("_") or "Subject"
@@ -1513,7 +1526,9 @@ def apply_styles(app: QApplication):
 
 
 def main():
-    setup_diagnostics()
+    root = app_root()
+    configure_bundled_ffmpeg(root)
+    setup_diagnostics(root)
     app = QApplication(sys.argv)
     apply_styles(app)
     window = MainWindow()

@@ -12,14 +12,21 @@ _crash_file = None
 
 def runtime_root() -> Path:
     if getattr(sys, "frozen", False):
-        return Path(sys.executable).resolve().parent
+        executable_path = Path(sys.executable).resolve()
+        if (
+            sys.platform == "darwin"
+            and executable_path.parent.name == "MacOS"
+            and executable_path.parent.parent.name == "Contents"
+        ):
+            return executable_path.parents[3]
+        return executable_path.parent
     return Path(__file__).resolve().parent
 
 
-def setup_diagnostics() -> logging.Logger:
+def setup_diagnostics(root: Path | None = None) -> logging.Logger:
     global _crash_file
 
-    result_path = runtime_root() / "result"
+    result_path = (root or runtime_root()) / "result"
     result_path.mkdir(parents=True, exist_ok=True)
 
     logger = logging.getLogger(LOGGER_NAME)

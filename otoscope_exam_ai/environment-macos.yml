@@ -17,6 +17,7 @@ dependencies:
   - joblib
   - imageio
   - imageio-ffmpeg
+  - ffmpeg
   - matplotlib
   - tqdm
   - pytorch

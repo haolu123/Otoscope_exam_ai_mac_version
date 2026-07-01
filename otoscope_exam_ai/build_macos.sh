@@ -58,6 +58,22 @@ python -m PyInstaller \
 mkdir -p "$RELEASE_ROOT/result" "$RELEASE_ROOT/ai_output"
 cp -R "dist/$APP_NAME.app" "$RELEASE_ROOT/$APP_NAME.app"
 cp -R "dist/$WORKER_NAME" "$RELEASE_ROOT/ai_worker"
+mkdir -p "$RELEASE_ROOT/ffmpeg"
+FFMPEG_EXE="$(
+python - <<'PY'
+import shutil
+try:
+    import imageio_ffmpeg
+    print(imageio_ffmpeg.get_ffmpeg_exe())
+except Exception:
+    print(shutil.which("ffmpeg") or "")
+PY
+)"
+if [ -z "$FFMPEG_EXE" ] || [ ! -f "$FFMPEG_EXE" ]; then
+  echo "Could not locate ffmpeg executable for bundling" >&2
+  exit 1
+fi
+cp "$FFMPEG_EXE" "$RELEASE_ROOT/ffmpeg/ffmpeg"
 if [ -d videos ]; then
   cp -R videos "$RELEASE_ROOT/videos"
 else
@@ -83,6 +99,7 @@ fi
 
 chmod +x "$RELEASE_ROOT/$APP_NAME.app/Contents/MacOS/$APP_NAME" || true
 chmod +x "$RELEASE_ROOT/ai_worker/$WORKER_NAME" || true
+chmod +x "$RELEASE_ROOT/ffmpeg/ffmpeg" || true
 
 mkdir -p dist_macos
 (
